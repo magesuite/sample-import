@@ -1,0 +1,41 @@
+{
+  "products_insert": {
+    "steps": {
+      "create_directories": {
+        "type": "create_directories",
+        "configuration": {
+          "directories_paths": ["var/import"]
+        }
+      },
+      "parse_import_file": {
+        "type": "parse",
+        "configuration": {
+          "class": "\\MageSuite\\SampleImport\\Import\\Parser",
+          "source_path": "vendor/creativestyle/magesuite-sample-import/Import/import.csv",
+          "target_path": "var/import/import.json"
+        },
+        "depends": "create_directories"
+      },
+      "validate_and_import": {
+        "type": "import",
+        "configuration": {
+          "source_path": "var/import/import.json",
+          "images_directory_path": "vendor/creativestyle/magesuite-sample-import/Import/images/",
+          "behavior": "update"
+        },
+        "depends": "parse_import_file"
+      }
+    }
+  },
+  "products_remove": {
+    "steps": {
+      "remove_products": {
+        "type": "parse",
+        "configuration": {
+          "class": "\\MageSuite\\SampleImport\\Import\\RemoveProducts",
+          "source_path": "vendor/creativestyle/magesuite-sample-import/Import/import.csv"
+        }
+      }
+    }
+  }
+}

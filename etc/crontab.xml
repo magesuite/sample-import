@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="index">
+        <job name="import_products" instance="MageSuite\Importer\Cron\Scheduler" method="scheduleProductsInsert">
+            <schedule>0 8 * * *</schedule>
+        </job>
+        <job name="delete_imported_products" instance="MageSuite\Importer\Cron\Scheduler" method="scheduleProductsRemove">
+            <schedule>0 10 * * *</schedule>
+        </job>
+    </group>
+</config>
