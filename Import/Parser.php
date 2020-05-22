@@ -6,6 +6,18 @@ class Parser extends \MageSuite\Importer\Parser\Generic implements \MageSuite\Im
 {
     const CSV_DELIMITER = ",";
 
+    protected $urlHelper;
+
+    public function __construct(
+        \Creativestyle\CSV\File\CsvReader $csvReader,
+        \MageSuite\Importer\Helper\Url $urlHelper
+    )
+    {
+        $this->urlHelper = $urlHelper;
+
+        parent::__construct($csvReader);
+    }
+
     /**
      * Parses input files and outputs unified file
      * @param $configuration
@@ -23,9 +35,6 @@ class Parser extends \MageSuite\Importer\Parser\Generic implements \MageSuite\Im
             $line = json_encode($row);
 
             $targetFileWriter->writeLine($line);
-
-            // simulate that this step takes in total one minute
-            sleep(30);
         }
     }
 
@@ -41,7 +50,7 @@ class Parser extends \MageSuite\Importer\Parser\Generic implements \MageSuite\Im
         $row['name'] = $values['product_title'];
         $row['description'] = $values['product_description'];
         $row['price'] = $values['price'];
-        $row['url_key'] = $this->slug($values['product_title'].'-'.$values['SKU']);
+        $row['url_key'] = $this->urlHelper->slug($values['product_title'].'-'.$values['SKU']);
         $row['base_image'] = $row['thumbnail_image'] = $row['small_image'] = $values['image'];
         $row['qty'] = $values['quantity'];
 
